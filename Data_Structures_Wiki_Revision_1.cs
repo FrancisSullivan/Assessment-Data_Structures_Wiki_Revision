@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO;
 
 namespace Data_Structures_Wiki_Revision_1
 {
@@ -15,6 +17,7 @@ namespace Data_Structures_Wiki_Revision_1
         public Data_Structures_Wiki_Revision_1()
         {
             InitializeComponent();
+            PopulateComboBox();
         }
         #region 6.2
         /*
@@ -62,13 +65,17 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.4
         /*
-        [P]..Create a custom method to populate the ComboBox 
+        [X]..Create a custom method to populate the ComboBox 
              when the Form Load method is called. 
-        [ ]..The six categories must be read from a simple text file.
+        [X]..The six categories must be read from a simple text file.
         */
         private void PopulateComboBox()
         {
-
+            string[] lineOfContents = File.ReadAllLines("simple.txt");
+            foreach (var line in lineOfContents)
+            {
+                comboBoxCategory.Items.Add(line);
+            }
         }
         #endregion
         #region 6.9
