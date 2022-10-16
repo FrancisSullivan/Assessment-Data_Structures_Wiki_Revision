@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBoxStructure = new System.Windows.Forms.GroupBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -50,6 +51,7 @@
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
+            this.toolTipTextBoxName = new System.Windows.Forms.ToolTip(this.components);
             this.groupBoxStructure.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -144,6 +146,7 @@
             this.buttonSearch.TabIndex = 50;
             this.buttonSearch.Text = "Search";
             this.buttonSearch.UseVisualStyleBackColor = true;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
             // 
             // label2
             // 
@@ -177,6 +180,8 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(455, 31);
             this.textBoxName.TabIndex = 46;
+            this.textBoxName.DoubleClick += new System.EventHandler(this.textBoxName_DoubleClick);
+            this.textBoxName.MouseHover += new System.EventHandler(this.textBoxName_MouseHover);
             // 
             // listView
             // 
@@ -209,6 +214,7 @@
             this.buttonLoad.TabIndex = 44;
             this.buttonLoad.Text = "Load";
             this.buttonLoad.UseVisualStyleBackColor = true;
+            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
             // 
             // buttonSave
             // 
@@ -218,6 +224,7 @@
             this.buttonSave.TabIndex = 43;
             this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonDelete
             // 
@@ -227,6 +234,7 @@
             this.buttonDelete.TabIndex = 42;
             this.buttonDelete.Text = "Delete";
             this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
             // buttonEdit
             // 
@@ -236,6 +244,7 @@
             this.buttonEdit.TabIndex = 41;
             this.buttonEdit.Text = "Edit";
             this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
             // 
             // buttonAdd
             // 
@@ -304,6 +313,7 @@
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.Button buttonEdit;
         private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.ToolTip toolTipTextBoxName;
     }
 }
 

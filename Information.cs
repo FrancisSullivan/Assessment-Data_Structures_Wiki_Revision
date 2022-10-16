@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data_Structures_Wiki_Revision_1
 {
-    #region 6.1
+    #region 6.01 IComparable Class
     /*
     [X]..Create a separate class file to hold the four data items of the 
          Data Structure 
