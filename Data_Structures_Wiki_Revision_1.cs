@@ -1,25 +1,26 @@
-﻿using System;
+﻿#region Imports
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Data.Common;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.IO;
-using System.Reflection;
+using System.Xml.Linq;
 
+#endregion
 namespace Data_Structures_Wiki_Revision_1
 {
     public partial class Data_Structures_Wiki_Revision_1 : Form
     {
+        #region Initialise Form
         public Data_Structures_Wiki_Revision_1()
         {
             InitializeComponent();
             PopulateComboBox();
         }
+        #endregion
         #region 6.02 Object List
         /*
         [X]..Create a global List<T> of type Information called Wiki.
@@ -33,13 +34,36 @@ namespace Data_Structures_Wiki_Revision_1
         [X]..ComboBox for the Category,
         [X]..Radio group for the Structure and Multiline, 
         [X]..TextBox for the Definition.
-        [P]..Display on ListBox.
-        [ ]..Clear Inputs.
+        [T]..Display on ListBox.
+        [T]..Clear Inputs.
         */
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            AddItem();
-            UpdateListView();
+            if(BlankCheck() == true)
+            {
+                MessageBox.Show("One of the input fields are blank, " +
+                   "please try again",
+                   "Duplication Error",
+                       MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            AddItemDuplicateCheck();
+        }
+        private void AddItemDuplicateCheck()
+        {
+            if (ValidName(textBoxName.Text) == false)
+            {
+                AddItem();
+                UpdateListView();
+                toolStripStatusLabel.Text = "Record added.";
+            }
+            else
+            {
+                MessageBox.Show("An entry with that 'Name' already exists, " +
+                    "please try again",
+                    "Duplication Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
         private void AddItem()
         {
@@ -49,6 +73,28 @@ namespace Data_Structures_Wiki_Revision_1
             addInformation.SetStructure(GetStructureRadioButton());
             addInformation.SetDefinition(textBoxDefinition.Text);
             Wiki.Add(addInformation);
+            ClearIO();
+        }
+        private Boolean BlankCheck()
+        {
+            Boolean inputError = false;
+            if (comboBoxCategory.SelectedItem == null)
+            {
+                return true;
+            }
+            if (textBoxName.Text == "")
+            {
+                return true;
+            }
+            if (textBoxDefinition.Text == "")
+            {
+                return true;
+            }
+            if (GetStructureRadioButton() == "")
+            {
+                return true;
+            }
+            return inputError;
         }
         #endregion
         #region 6.04 'Category' ComboBox
@@ -64,19 +110,29 @@ namespace Data_Structures_Wiki_Revision_1
             {
                 comboBoxCategory.Items.Add(line);
             }
+            comboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         #endregion
-        #region 6.05 'Name' Duplicate Checker
+        #region 6.05 'Name' Duplicate Checker, Character Filter
         /*
-        [P]..Create a custom ValidName method which will take a parameter 
+        [T]..Create a custom ValidName method which will take a parameter 
              string value from the Textbox Name and returns a Boolean after 
              checking for duplicates. 
-        [P]..Use the built in List<T> method “Exists” to answer this 
+        [T]..Use the built in List<T> method “Exists” to answer this 
              requirement.
+        [T]..filter out numeric or special character input. 
         */
         private Boolean ValidName(string name)
         {
             return Wiki.Exists(x => x.GetName() == name);
+        }
+        private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && (e.KeyChar != ' ') 
+                && (e.KeyChar != '-') && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
         #endregion
         #region 6.06 'Structure' Radio Buttons
@@ -101,11 +157,12 @@ namespace Data_Structures_Wiki_Revision_1
                 }
                 else
                 {
-                    rbValue = "Other";
+                    rbValue = "";
                 }
             }
             return rbValue;
         }
+        //private Boolean
         private void SetStructureRadioButton(int item)
         {
             foreach (RadioButton rb in 
@@ -145,10 +202,7 @@ namespace Data_Structures_Wiki_Revision_1
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                int currentItem = listView.SelectedIndices[0];
-                string name = Wiki[currentItem].GetName();
-                listView.Items.RemoveAt(currentItem);
-                Wiki.RemoveAt(currentItem);
+                RemoveCurrentItem();
                 UpdateListView();
                 toolStripStatusLabel.Text = "Record deleted.";
             }
@@ -156,6 +210,12 @@ namespace Data_Structures_Wiki_Revision_1
             {
                 toolStripStatusLabel.Text = "'Delete' operation canceled.";
             }
+        }
+        private void RemoveCurrentItem()
+        {
+            int currentItem = listView.SelectedIndices[0];
+            listView.Items.RemoveAt(currentItem);
+            Wiki.RemoveAt(currentItem);
         }
         #endregion
         #region 6.08 'Edit' Button
@@ -175,22 +235,51 @@ namespace Data_Structures_Wiki_Revision_1
                     "To 'edit' first select a record from the 'Name' column.";
                 return;
             }
+            if (BlankCheck() == true)
+            {
+                MessageBox.Show("One of the input fields are blank, " +
+                   "please try again",
+                   "Duplication Error",
+                       MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             var result = MessageBox.Show("Are you sure you want to change " +
                 "this record?", "Edit Record",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                int currentItem = listView.SelectedIndices[0];
-                string name = Wiki[currentItem].GetName();
-                listView.Items.RemoveAt(currentItem);
-                Wiki.RemoveAt(currentItem);
+                if(textBoxName.Text == 
+                    Wiki[listView.SelectedIndices[0]].GetName())
+                {
+                    RemoveCurrentItem();
+                    AddItem();
+                    UpdateListView();
+                    toolStripStatusLabel.Text = "Record updated.";
+                }
+                else
+                {
+                    EditItemDuplicateCheck();
+                }
+            }
+            else
+            {
+                toolStripStatusLabel.Text = "'Edit' operation canceled.";
+            }
+        }
+        private void EditItemDuplicateCheck()
+        {
+            if (ValidName(textBoxName.Text) == false)
+            {
+                RemoveCurrentItem();
                 AddItem();
                 UpdateListView();
                 toolStripStatusLabel.Text = "Record updated.";
             }
             else
             {
-                toolStripStatusLabel.Text = "'Edit' operation canceled.";
+                MessageBox.Show("An entry with that 'Name' already exists, " +
+                    "please try again", "Duplication Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         #endregion
@@ -211,31 +300,37 @@ namespace Data_Structures_Wiki_Revision_1
             }
         }
         #endregion
-        #region 6.10 'Search' Button - FIX
+        #region 6.10 'Search' Button
         /*
-        [P]..Create a button method that will use the builtin binary search 
+        [T]..Create a button method that will use the builtin binary search 
              to find a Data Structure name. 
-        [ ]..If the record is found the associated details will populate the 
+        [T]..If the record is found the associated details will populate the 
              appropriate input controls and highlight the name in the 
              ListView. 
-        [ ]..At the end of the search process the search input TextBox must 
+        [T]..At the end of the search process the search input TextBox must 
              be cleared.
+        [T]..refocus the I beam icon into search textbox.
         */
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxName.Text))
+            if (!string.IsNullOrEmpty(textBoxSearch.Text))
             {
                 Information findItem = new Information();
-                findItem.SetName(textBoxName.Text);
+                findItem.SetName(textBoxSearch.Text);
                 int found = Wiki.BinarySearch(findItem);
                 if (found >= 0)
                 {
                     listView.SelectedItems.Clear();
                     listView.Items[found].Selected = true;
-                    listView.Focus();
+                    //listView.Focus();
                     textBoxName.Text = Wiki[found].GetName();
-                    comboBoxCategory.Text = Wiki[found].GetName();
+                    comboBoxCategory.Text = Wiki[found].GetCategory();
                     SetStructureRadioButton(found);
+                    textBoxDefinition.Text = Wiki[found].GetDefinition();
+                    textBoxSearch.Clear();
+                    textBoxSearch.Focus();
+                    toolStripStatusLabel.Text = "Record found. " +
+                        "Attributes displayed above.";
                 }
                 else
                 {
@@ -247,7 +342,8 @@ namespace Data_Structures_Wiki_Revision_1
             }
             else
             {
-                MessageBox.Show("Please enter a Data Structure 'Name' into the search box", 
+                MessageBox.Show("Please enter a Data Structure 'Name' " +
+                    "into the search box", 
                     "Input Error", MessageBoxButtons.OK, 
                     MessageBoxIcon.Error);
                 textBoxName.Clear();
@@ -255,14 +351,25 @@ namespace Data_Structures_Wiki_Revision_1
             }
         }
         #endregion
-        #region 6.11 ListView Select - FILL
+        #region 6.11 ListView Select
         /*
-        [ ]..Create a ListView event so a user can select a Data Structure 
+        [T]..Create a ListView event so a user can select a Data Structure 
              Name from the list of Names and the associated information will 
-             be displayed in the related text boxes combo box and radio 
-             button.
+             be displayed in the related 
+        [T]..text boxes 
+        [T]..combo box and 
+        [T]..radio button.
         */
-
+        private void listView_Click(object sender, EventArgs e)
+        {
+            int currentItem = listView.SelectedIndices[0];
+            textBoxName.Text = Wiki[currentItem].GetName();
+            comboBoxCategory.Text = Wiki[currentItem].GetCategory();
+            SetStructureRadioButton(currentItem);
+            textBoxDefinition.Text = Wiki[currentItem].GetDefinition();
+            toolStripStatusLabel.Text = 
+                "Record selected. Attributes displayed above.";
+        }
         #endregion
         #region 6.12 Clear
         /*
@@ -271,10 +378,10 @@ namespace Data_Structures_Wiki_Revision_1
         [T]..ComboBox and 
         [T]..Radio button.
         */
-        private void ClearTextBoxes()
+        private void ClearIO()
         {
             textBoxName.Clear();
-            comboBoxCategory.Text = string.Empty;
+            comboBoxCategory.SelectedItem = null;   
             foreach (RadioButton rb in 
                 groupBoxStructure.Controls.OfType<RadioButton>())
             {
@@ -291,14 +398,16 @@ namespace Data_Structures_Wiki_Revision_1
         */
         private void textBoxName_DoubleClick(object sender, EventArgs e)
         {
-            ClearTextBoxes();
+            ClearIO();
+            toolStripStatusLabel.Text = "All attributes cleared.";
         }
         private void textBoxName_MouseHover(object sender, EventArgs e)
         {
-            toolTipTextBoxName.SetToolTip(textBoxName, "Double click to clear all attributes");
+            toolTipTextBoxName.SetToolTip(textBoxName, 
+                "Double click to clear all attributes");
         }
         #endregion
-        #region 6.14 'Load' and 'Save' Buttons - FILL
+        #region 6.14 'Load' and 'Save' Buttons
         /*
         [ ]..Create two buttons for the manual open and save option; 
         [ ]..this must use a dialog box to select a file or rename a saved 
@@ -308,18 +417,109 @@ namespace Data_Structures_Wiki_Revision_1
         */
         private void buttonLoad_Click(object sender, EventArgs e)
         {
-            ClearTextBoxes();
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Application.StartupPath;
+            openFileDialog.Filter = "BIN FILES|*.bin";
+            openFileDialog.Title = "Open a BIN file";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Open(openFileDialog.FileName);
+                UpdateListView();
+                toolStripStatusLabel.Text = "Array imported from file.";
+            }
+            else
+                toolStripStatusLabel.Text = "Load operation canceled.";
         }
+        private void Open(string openFileName)
+        {
+            try
+            {
+                using (Stream stream = File.Open(openFileName, 
+                    FileMode.Open))
+                {
+                    using (var reader = new BinaryReader(stream, 
+                        Encoding.UTF8, false))
+                    {
+                        while (stream.Position < stream.Length)
+                        {
+                            Information addInformation = new Information();
+                            addInformation.SetName(reader.ReadString());
+                            addInformation.SetCategory(reader.ReadString());
+                            addInformation.SetStructure(reader.ReadString());
+                            addInformation.SetDefinition(reader.ReadString());
+                            Wiki.Add(addInformation);
+                        }
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        string defaultFileName = "default.bin";
         private void buttonSave_Click(object sender, EventArgs e)
         {
-
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "bin file|*.bin";
+            saveFileDialog.Title = "Save A BIN file";
+            saveFileDialog.InitialDirectory = Application.StartupPath;
+            saveFileDialog.DefaultExt = "bin";
+            saveFileDialog.ShowDialog();
+            string fileName = saveFileDialog.FileName;
+            if (saveFileDialog.FileName != "")
+            {
+                Save(fileName);
+                toolStripStatusLabel.Text = "Array saved to: " + fileName;
+            }
+            else
+            {
+                Save(defaultFileName);
+                toolStripStatusLabel.Text = "Array saved to: " + 
+                    Application.StartupPath + "\\" + defaultFileName;
+            }
+        }
+        private void Save(string saveFileName)
+        {
+            try
+            {
+                using (Stream stream = File.Open(saveFileName, 
+                    FileMode.Create))
+                {
+                    using (var writer = new BinaryWriter(stream, 
+                        Encoding.UTF8, false))
+                    {
+                        foreach (var item in Wiki)
+                        {
+                            writer.Write(item.GetName());
+                            writer.Write(item.GetCategory());
+                            writer.Write(item.GetStructure());
+                            writer.Write(item.GetDefinition());
+                            //writer.Write(string.Join(",",
+                            //bike.GetAccessories()));
+                        }
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
         #endregion
-        #region 6.15 Save on 'Close' - FILL
+        #region 6.15 Save on 'Close'
         /*
         [ ]..The Wiki application will save data when the form closes. 
         */
-
+        private void Data_Structures_Wiki_Revision_1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Save("AutoSave.bin");
+        }
+        #endregion
+        #region MISC
+        /*
+        */
         #endregion
     }
 }

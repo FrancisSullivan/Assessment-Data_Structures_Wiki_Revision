@@ -1,9 +1,10 @@
-﻿using System;
+﻿#region Imports
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+#endregion
 namespace Data_Structures_Wiki_Revision_1
 {
     #region 6.01 IComparable Class

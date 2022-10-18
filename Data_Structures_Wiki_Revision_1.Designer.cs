@@ -181,6 +181,7 @@
             this.textBoxName.Size = new System.Drawing.Size(455, 31);
             this.textBoxName.TabIndex = 46;
             this.textBoxName.DoubleClick += new System.EventHandler(this.textBoxName_DoubleClick);
+            this.textBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxName_KeyPress);
             this.textBoxName.MouseHover += new System.EventHandler(this.textBoxName_MouseHover);
             // 
             // listView
@@ -188,6 +189,7 @@
             this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
+            this.listView.FullRowSelect = true;
             this.listView.HideSelection = false;
             this.listView.Location = new System.Drawing.Point(551, 79);
             this.listView.Name = "listView";
@@ -195,6 +197,7 @@
             this.listView.TabIndex = 45;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
+            this.listView.Click += new System.EventHandler(this.listView_Click);
             // 
             // columnHeader1
             // 
@@ -280,6 +283,7 @@
             this.Controls.Add(this.buttonAdd);
             this.Name = "Data_Structures_Wiki_Revision_1";
             this.Text = "Data_Structures_Wiki_Revision_1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Data_Structures_Wiki_Revision_1_FormClosing);
             this.groupBoxStructure.ResumeLayout(false);
             this.groupBoxStructure.PerformLayout();
             this.statusStrip.ResumeLayout(false);
