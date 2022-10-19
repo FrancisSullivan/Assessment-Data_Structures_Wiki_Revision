@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 #endregion
+// Francis Sullivan 30034007
+// AT2 2022.10.19
 namespace Data_Structures_Wiki_Revision_1
 {
     #region 6.01 IComparable Class
