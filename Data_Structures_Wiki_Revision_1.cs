@@ -59,9 +59,8 @@ namespace Data_Structures_Wiki_Revision_1
             }
             else
             {
-                MessageBox.Show("An entry with that 'Name' already exists, " +
-                    "please try again",
-                    "Duplication Error",
+                MessageBox.Show("An entry with that 'Name' already exists, " 
+                    + "please try again", "Duplication Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -277,8 +276,8 @@ namespace Data_Structures_Wiki_Revision_1
             }
             else
             {
-                MessageBox.Show("An entry with that 'Name' already exists, " +
-                    "please try again", "Duplication Error",
+                MessageBox.Show("An entry with that 'Name' already exists, " 
+                    + "please try again", "Duplication Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

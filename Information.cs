@@ -13,7 +13,7 @@ namespace Data_Structures_Wiki_Revision_1
          Data Structure 
     [X]..(use the Data Structure Matrix as a guide). 
     [X]..Use private properties for the fields which must be of type “string”. 
-    [P]..The class file must have separate setters and getters, 
+    [X]..The class file must have separate setters and getters, 
     [X]..add an appropriate IComparable for the Name attribute. 
     [X]..Save the class as “Information.cs”.
     */
