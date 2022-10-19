@@ -34,8 +34,8 @@ namespace Data_Structures_Wiki_Revision_1
         [X]..ComboBox for the Category,
         [X]..Radio group for the Structure and Multiline, 
         [X]..TextBox for the Definition.
-        [T]..Display on ListBox.
-        [T]..Clear Inputs.
+        [X]..Display on ListBox.
+        [X]..Clear Inputs.
         */
         private void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -115,12 +115,12 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.05 'Name' Duplicate Checker, Character Filter
         /*
-        [T]..Create a custom ValidName method which will take a parameter 
+        [X]..Create a custom ValidName method which will take a parameter 
              string value from the Textbox Name and returns a Boolean after 
              checking for duplicates. 
-        [T]..Use the built in List<T> method “Exists” to answer this 
+        [X]..Use the built in List<T> method “Exists” to answer this 
              requirement.
-        [T]..filter out numeric or special character input. 
+        [X]..filter out numeric or special character input. 
         */
         private Boolean ValidName(string name)
         {
@@ -137,11 +137,11 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.06 'Structure' Radio Buttons
         /*
-        [ ]..Create two methods to highlight and return the values from the 
+        [X]..Create two methods to highlight and return the values from the 
              Radio button GroupBox. 
-        [P]..The first method must return a string value from the selected 
+        [X]..The first method must return a string value from the selected 
              radio button (Linear or Non-Linear). 
-        [ ]..The second method must send an integer index which will 
+        [X]..The second method must send an integer index which will 
              highlight an appropriate radio button.
         */
         private string GetStructureRadioButton()
@@ -181,11 +181,11 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.07 'Delete' Button
         /*
-        [P]..Create a button method that will delete the currently selected 
+        [X]..Create a button method that will delete the currently selected 
              record in the ListView. 
-        [P]..Ensure the user has the option to backout of this action by 
+        [X]..Ensure the user has the option to backout of this action by 
              using a dialog box. 
-        [P]..Display an updated version of the sorted list at the end of 
+        [X]..Display an updated version of the sorted list at the end of 
              this process.
         */
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -302,14 +302,14 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.10 'Search' Button
         /*
-        [T]..Create a button method that will use the builtin binary search 
+        [X]..Create a button method that will use the builtin binary search 
              to find a Data Structure name. 
-        [T]..If the record is found the associated details will populate the 
+        [X]..If the record is found the associated details will populate the 
              appropriate input controls and highlight the name in the 
              ListView. 
-        [T]..At the end of the search process the search input TextBox must 
+        [X]..At the end of the search process the search input TextBox must 
              be cleared.
-        [T]..refocus the I beam icon into search textbox.
+        [X]..refocus the I beam icon into search textbox.
         */
         private void buttonSearch_Click(object sender, EventArgs e)
         {
@@ -322,7 +322,6 @@ namespace Data_Structures_Wiki_Revision_1
                 {
                     listView.SelectedItems.Clear();
                     listView.Items[found].Selected = true;
-                    //listView.Focus();
                     textBoxName.Text = Wiki[found].GetName();
                     comboBoxCategory.Text = Wiki[found].GetCategory();
                     SetStructureRadioButton(found);
@@ -334,9 +333,10 @@ namespace Data_Structures_Wiki_Revision_1
                 }
                 else
                 {
-                    MessageBox.Show("Cannot find 'Name'", "Not Found Error", 
+                    MessageBox.Show("Data Structure Name not found", 
+                        "Not Found Error", 
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    textBoxName.Clear();
+                    textBoxName.Clear(); 
                     textBoxName.Focus();
                 }
             }
@@ -353,12 +353,12 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.11 ListView Select
         /*
-        [T]..Create a ListView event so a user can select a Data Structure 
+        [X]..Create a ListView event so a user can select a Data Structure 
              Name from the list of Names and the associated information will 
              be displayed in the related 
-        [T]..text boxes 
-        [T]..combo box and 
-        [T]..radio button.
+        [X]..text boxes 
+        [X]..combo box and 
+        [X]..radio button.
         */
         private void listView_Click(object sender, EventArgs e)
         {
@@ -373,10 +373,10 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.12 Clear
         /*
-        [T]..Create a custom method that will clear and reset the 
-        [T]..TextBoxes, 
-        [T]..ComboBox and 
-        [T]..Radio button.
+        [X]..Create a custom method that will clear and reset the 
+        [X]..TextBoxes, 
+        [X]..ComboBox and 
+        [X]..Radio button.
         */
         private void ClearIO()
         {
@@ -392,9 +392,9 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.13 'Clear' DoubleClick Event
         /*
-        [T]..Create a double click event on the Name TextBox to clear the 
+        [X]..Create a double click event on the Name TextBox to clear the 
              TextBboxes, ComboBox and Radio button.
-        [T]..this must have an associated tool tip.
+        [X]..this must have an associated tool tip.
         */
         private void textBoxName_DoubleClick(object sender, EventArgs e)
         {
@@ -409,10 +409,10 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.14 'Load' and 'Save' Buttons
         /*
-        [ ]..Create two buttons for the manual open and save option; 
-        [ ]..this must use a dialog box to select a file or rename a saved 
+        [X]..Create two buttons for the manual open and save option; 
+        [X]..this must use a dialog box to select a file or rename a saved 
              file. 
-        [ ]..All Wiki data is stored/retrieved using a binary reader/writer 
+        [X]..All Wiki data is stored/retrieved using a binary reader/writer 
              file format.
         */
         private void buttonLoad_Click(object sender, EventArgs e)
@@ -424,6 +424,7 @@ namespace Data_Structures_Wiki_Revision_1
             openFileDialog.Title = "Open a BIN file";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                Wiki.Clear();
                 Open(openFileDialog.FileName);
                 UpdateListView();
                 toolStripStatusLabel.Text = "Array imported from file.";
@@ -496,8 +497,6 @@ namespace Data_Structures_Wiki_Revision_1
                             writer.Write(item.GetCategory());
                             writer.Write(item.GetStructure());
                             writer.Write(item.GetDefinition());
-                            //writer.Write(string.Join(",",
-                            //bike.GetAccessories()));
                         }
                     }
                 }
@@ -510,16 +509,13 @@ namespace Data_Structures_Wiki_Revision_1
         #endregion
         #region 6.15 Save on 'Close'
         /*
-        [ ]..The Wiki application will save data when the form closes. 
+        [X]..The Wiki application will save data when the form closes. 
         */
-        private void Data_Structures_Wiki_Revision_1_FormClosing(object sender, FormClosingEventArgs e)
+        private void Data_Structures_Wiki_Revision_1_FormClosing(object sender, 
+            FormClosingEventArgs e)
         {
             Save("AutoSave.bin");
         }
-        #endregion
-        #region MISC
-        /*
-        */
         #endregion
     }
 }

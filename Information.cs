@@ -25,7 +25,7 @@ namespace Data_Structures_Wiki_Revision_1
         private string Definition;
         public int CompareTo(Information other)
         {
-            return Name.CompareTo(other.Name);
+            return Name.ToLower().CompareTo(other.Name.ToLower());
         }
         public void SetName(string newName)
         {
