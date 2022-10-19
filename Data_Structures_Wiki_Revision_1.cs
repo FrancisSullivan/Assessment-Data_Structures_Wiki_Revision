@@ -322,7 +322,6 @@ namespace Data_Structures_Wiki_Revision_1
                 {
                     listView.SelectedItems.Clear();
                     listView.Items[found].Selected = true;
-                    //listView.Focus();
                     textBoxName.Text = Wiki[found].GetName();
                     comboBoxCategory.Text = Wiki[found].GetCategory();
                     SetStructureRadioButton(found);
@@ -334,9 +333,10 @@ namespace Data_Structures_Wiki_Revision_1
                 }
                 else
                 {
-                    MessageBox.Show("Cannot find 'Name'", "Not Found Error", 
+                    MessageBox.Show("Data Structure Name not found", 
+                        "Not Found Error", 
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    textBoxName.Clear();
+                    textBoxName.Clear(); 
                     textBoxName.Focus();
                 }
             }
@@ -424,6 +424,7 @@ namespace Data_Structures_Wiki_Revision_1
             openFileDialog.Title = "Open a BIN file";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                Wiki.Clear();
                 Open(openFileDialog.FileName);
                 UpdateListView();
                 toolStripStatusLabel.Text = "Array imported from file.";
@@ -496,8 +497,6 @@ namespace Data_Structures_Wiki_Revision_1
                             writer.Write(item.GetCategory());
                             writer.Write(item.GetStructure());
                             writer.Write(item.GetDefinition());
-                            //writer.Write(string.Join(",",
-                            //bike.GetAccessories()));
                         }
                     }
                 }
@@ -516,10 +515,6 @@ namespace Data_Structures_Wiki_Revision_1
         {
             Save("AutoSave.bin");
         }
-        #endregion
-        #region MISC
-        /*
-        */
         #endregion
     }
 }
