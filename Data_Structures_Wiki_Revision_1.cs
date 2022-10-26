@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 #endregion
 // Francis Sullivan 30034007
@@ -125,7 +126,10 @@ namespace Data_Structures_Wiki_Revision_1
         */
         private Boolean ValidName(string name)
         {
-            return Wiki.Exists(x => x.GetName() == name);
+            Trace.TraceInformation("Input String: {0}", name);
+            Boolean testBolean = Wiki.Exists(x => x.GetName() == name);
+            Trace.TraceInformation("testBolean: {0}", testBolean);
+            return testBolean;
         }
         private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -215,6 +219,8 @@ namespace Data_Structures_Wiki_Revision_1
         private void RemoveCurrentItem()
         {
             int currentItem = listView.SelectedIndices[0];
+            Trace.TraceInformation("List view index to be removed: {0}", 
+                currentItem);
             listView.Items.RemoveAt(currentItem);
             Wiki.RemoveAt(currentItem);
         }
@@ -269,6 +275,8 @@ namespace Data_Structures_Wiki_Revision_1
         }
         private void EditItemDuplicateCheck()
         {
+            Trace.TraceInformation("Duplication status: {0}",
+                ValidName(textBoxName.Text));
             if (ValidName(textBoxName.Text) == false)
             {
                 RemoveCurrentItem();
@@ -512,8 +520,8 @@ namespace Data_Structures_Wiki_Revision_1
         /*
         [X]..The Wiki application will save data when the form closes. 
         */
-        private void Data_Structures_Wiki_Revision_1_FormClosing(object sender, 
-            FormClosingEventArgs e)
+        private void Data_Structures_Wiki_Revision_1_FormClosing(
+            object sender, FormClosingEventArgs e)
         {
             Save("AutoSave.bin");
         }
