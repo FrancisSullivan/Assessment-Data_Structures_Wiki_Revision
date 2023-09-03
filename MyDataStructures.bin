@@ -1,0 +1,15 @@
+ArrayArrayLinear[An array is a collection of items of same data type stored at contiguous memory locations. Binary Search TreeTree
+Non-Linear×Binary Search Tree is a node-based binary tree data structure. It has the following properties:
+The left subtree of a node contains only nodes with keys lesser than the nodeâ€™s key. 
+The right subtree of a node contains only nodes with keys greater than the nodeâ€™s key. 
+The left and right subtree each must also be a binary search tree.GraphGraphs
+Non-Linear¬A Graph is a non-linear data structure consisting of nodes and edges. The nodes are sometimes also referred to as vertices and the edges are lines or arcs that connect any two nodes in the graph.
+A Graph consists of a finite set of vertices(or nodes) and a set of Edges that connect a pair of nodes.
+Hash TableHash
+Non-LinearÿHash Table is a data structure which stores data in an associative manner. In a hash table, data is stored in an array format, where each data value has its own unique index value. Access of data becomes very fast if we know the index of the desired data.HeapTree
+Non-LinearïA Heap is a special Tree-based data structure in which the tree is a complete binary tree.
+Heaps can be of two types:
+Max-Heap: In a Max-Heap the key present at the root node must be greatest among the keys present at all of itâ€™s children.
+Min-Heap: In a Min-Heap the key present at the root node must be minimum among the keys present at all of itâ€™s children.Linked listListLinear§A linked list is a linear data structure, in which the elements are not stored at contiguous memory locations. The elements in a linked list are linked using pointers.ListListLinearkA list is an ordered data structure with elements separated by a comma and enclosed within square brackets.QueueAbstractLinear°Data stored in a queue follows a particular order in which the operations are performed. The order is First In First Out (FIFO). A good example of a queue is any queue of consumers for a resource where the consumer that came first is served first. In a queue, we remove the item the least recently added.Self-Balance TreeTree
+Non-Linear¨Self-Balancing Binary Search Trees are height-balanced binary search trees that automatically keeps height as small as possible when insertion and deletion operations are performed on tree. The height is typically maintained in order of Log n so that all operations take O(Log n) time on average.SetAbstract
+Non-LinearZA set is an abstract data type that can store unique values, without any particular order.StackAbstractLinearÔData stored in a stack follows a particular order in which the operations are performed. The order may be LIFO(Last In First Out) or FILO(First In Last Out). In a stack we remove the item the most recently added.Two Dimension ArrayArrayLinearÓA two dimension array is a collection of items of same data type stored at contiguous memory locations. Each location needs to be accessed with a set of coordinates, corresponding the row and column of the data.
